@@ -1,46 +1,71 @@
-let drawingMode = "none";
-let clicks = [];
-
-
+let state = {
+  drawingMode: "none",
+  clicks: [],
+  objects: []
+}
 
 function setup() {
   createCanvas(640, 480);
-  strokeWeight(3);
-  rect(0, 0, 639, 479);
 }
 
 function draw() {
 
+  // Border Canvas
+  strokeWeight(3);
+  rect(0, 0, 639, 479);
+
+  // While a user did
+  if(state.drawingMode == "line" && state.clicks.length > 1) {
+    line(state.clicks[state.clicks.length-1].x, state.clicks[state.clicks.length-1].y, mouseX, mouseY);
+  }
+
+  
+  for(object of state.objects) {
+    object.show();
+  }
 }
 
-function drawLine() {
-  console.log(clicks.length);
-  let point1 = clicks.pop();
-  let point2 = clicks.pop();
-  strokeWeight(2);
-  line(point1.x, point1.y, point2.x, point2.y);
+class Line {
+  constructor(point1, point2) {
+    this.point1 = point1;
+    this.point2 = point2;
+  }
+
+  show() {
+    line(this.point1.x, this.point1.y, this.point2.x, this.point2.y);
+  }
+}
+
+function createLine() {
+  const point1 = state.clicks.pop();
+  const point2 = state.clicks.pop();
+  const line = new Line(point1, point2)
+  state.objects.push(line);
+
+  console.log(state.objects);
 }
 
 function drawLineMode() {
-  drawingMode = "line";
+  state.drawingMode = "line";
 }
 
 function mouseClicked() {
-  console.log(clicks.length);
-  if(drawingMode == "line") {
-    if(clicks.length < 2) {
-      clicks.push({
+  if(state.drawingMode == "line") {
+    if(state.clicks.length < 2) {
+      state.clicks.push({
         x: mouseX,
         y: mouseY
       });
     } else {
-      clicks.push({
+      state.clicks.push({
         x: mouseX,
         y: mouseY
       });
-      drawLine();
-      clicks = []
-      drawingMode = "none";
+      
+      createLine();
+      // Reset
+      state.clicks = []
+      state.drawingMode = "none";
     }
   }
 }
