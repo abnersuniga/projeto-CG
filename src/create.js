@@ -1,0 +1,20 @@
+function createLine() {
+  const point1 = state.clicks.pop();
+  const point2 = state.clicks.pop();
+  const line = new Line(point1, point2)
+  state.objects.push(line);
+}
+
+function createCircle() {
+  const point1 = state.clicks.pop();
+  const point2 = state.clicks.pop();
+  const circle = new Circle(point1, point2)
+  state.objects.push(circle);
+}
+
+function createRect() {
+  const point1 = state.clicks.pop();
+  const point2 = state.clicks.pop();
+  const rect = new Rect(point1, point2)
+  state.objects.push(rect);
+}

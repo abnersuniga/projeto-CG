@@ -1,4 +1,4 @@
-let state = {
+const state = {
   drawingMode: "none",
   clicks: [],
   objects: []
@@ -35,75 +35,6 @@ function draw() {
   for(object of state.objects) {
     object.show();
   }
-}
-
-class Line {
-  constructor(point1, point2) {
-    this.point1 = point1;
-    this.point2 = point2;
-  }
-
-  show() {
-    line(this.point1.x, this.point1.y, this.point2.x, this.point2.y);
-  }
-}
-
-class Circle {
-  constructor(point1, point2) {
-    this.point1 = point1;
-    this.point2 = point2;
-  }
-
-  show() {
-    let distance = dist(this.point1.x, this.point1.y, this.point2.x, this.point2.y)
-    ellipse(this.point2.x, this.point2.y, distance*2, distance*2);
-  }
-}
-
-class Rect {
-  constructor(point1, point2) {
-    this.point1 = point1;
-    this.point2 = point2;
-  }
-
-  show() {
-    let width = this.point2.x - this.point1.x;
-    let height = this.point2.y - this.point1.y;
-    rect(this.point1.x, this.point1.y, width, height);
-  }
-}
-
-function createLine() {
-  const point1 = state.clicks.pop();
-  const point2 = state.clicks.pop();
-  const line = new Line(point1, point2)
-  state.objects.push(line);
-}
-
-function createCircle() {
-  const point1 = state.clicks.pop();
-  const point2 = state.clicks.pop();
-  const circle = new Circle(point1, point2)
-  state.objects.push(circle);
-}
-
-function createRect() {
-  const point1 = state.clicks.pop();
-  const point2 = state.clicks.pop();
-  const rect = new Rect(point1, point2)
-  state.objects.push(rect);
-}
-
-function drawLineMode() {
-  state.drawingMode = "line";
-}
-
-function drawCircleMode() {
-  state.drawingMode = "circle";
-}
-
-function drawRectMode() {
-  state.drawingMode = "rect";
 }
 
 function mouseClicked() {

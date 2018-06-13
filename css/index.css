@@ -1,27 +1,29 @@
+* {
+    margin: 0;
+}
 body {
     font-family: 'PT Sans', sans-serif;
+    margin: 0 10px 0 10px;
 }
-.drawing button {
-    background-color: #555555;
+button {
+    background-color: black;
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    font-family: 'PT Sans', sans-serif;
     cursor: pointer;
+    width: 150px;
 }
 .operations {
     margin-bottom: 10px;
 }
 .operations button {
     background-color: #008CBA;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+}
+.drawing button {
+    background-color: #555555;
 }

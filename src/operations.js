@@ -1,0 +1,3 @@
+function clearCanvas() {
+  state.objects = [];
+}
