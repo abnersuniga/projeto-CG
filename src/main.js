@@ -121,7 +121,7 @@ function mouseClicked() {
       
       createLine();
       // Reset
-      state.clicks = []
+      state.clicks = [];
       state.drawingMode = "none";
     }
   }
@@ -140,7 +140,7 @@ function mouseClicked() {
       
       createCircle();
       // Reset
-      state.clicks = []
+      state.clicks = [];
       state.drawingMode = "none";
     }
   }
@@ -159,7 +159,7 @@ function mouseClicked() {
       
       createRect();
       // Reset
-      state.clicks = []
+      state.clicks = [];
       state.drawingMode = "none";
     }
   }
