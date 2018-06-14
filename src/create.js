@@ -18,3 +18,11 @@ function createRect() {
   const rect = new Rect(point1, point2)
   state.objects.push(rect);
 }
+
+function createTriangle() {
+  const point1 = state.clicks.pop();
+	const point2 = state.clicks.pop();
+	const point3 = state.clicks.pop();
+  const triangle = new Triangle(point1, point2, point3)
+  state.objects.push(triangle);
+}

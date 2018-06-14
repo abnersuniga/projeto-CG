@@ -16,7 +16,8 @@ function draw() {
 
   // When the user hasn't chosen the last point
   if(state.drawingMode == "line" && state.clicks.length > 1) {
-    line(state.clicks[state.clicks.length-1].x, state.clicks[state.clicks.length-1].y, mouseX, mouseY);
+    let firstPoint = state.clicks[state.clicks.length-1]
+    line(firstPoint.x, firstPoint.y, mouseX, mouseY);
   }
   if(state.drawingMode == "circle" && state.clicks.length > 1) {
     let x = state.clicks[state.clicks.length-1].x;
@@ -30,6 +31,16 @@ function draw() {
     let width = mouseX - x;
     let height = mouseY - y;
     rect(x, y, width, height);
+  }
+  if(state.drawingMode == "triangle") {
+    if(state.clicks.length > 1) {
+      let firstPoint = state.clicks[state.clicks.length-1]
+      line(firstPoint.x, firstPoint.y, mouseX, mouseY);
+      if(state.clicks.length > 2) {
+        let secondPoint = state.clicks[state.clicks.length-2]
+        line(secondPoint.x, secondPoint.y, firstPoint.x, firstPoint.y);
+      }
+    }
   }
 
   for(object of state.objects) {
@@ -94,4 +105,24 @@ function mouseClicked() {
       state.drawingMode = "none";
     }
   }
+
+  if(state.drawingMode == "triangle") {
+    if(state.clicks.length < 3) {
+      state.clicks.push({
+        x: mouseX,
+        y: mouseY
+      });
+    } else {
+      state.clicks.push({
+        x: mouseX,
+        y: mouseY
+      });
+      
+      createTriangle();
+      // Reset
+      state.clicks = [];
+      state.drawingMode = "none";
+    }
+  }
+
 }
