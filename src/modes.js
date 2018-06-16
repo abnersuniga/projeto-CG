@@ -13,3 +13,7 @@ function drawRectMode() {
 function drawTriangleMode() {
   state.drawingMode = "triangle";
 }
+
+function opScaleMode() {
+  state.opMode = "scale";
+}

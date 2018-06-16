@@ -1,5 +1,6 @@
 const state = {
   drawingMode: "none",
+  opMode: "none",
   clicks: [],
   objects: []
 }
@@ -12,8 +13,13 @@ function draw() {
 
   // Border Canvas
   strokeWeight(3);
+  fill(255);
   rect(0, 0, 639, 479);
 
+  for(object of state.objects) {
+    object.show();
+  }
+  
   // When the user hasn't chosen the last point
   if(state.drawingMode == "line" && state.clicks.length > 1) {
     let firstPoint = state.clicks[state.clicks.length-1]
@@ -43,8 +49,31 @@ function draw() {
     }
   }
 
+  // Highlights and Select
   for(object of state.objects) {
-    object.show();
+    switch(object.constructor) {
+      case Circle:
+        if(SAT.pointInCircle(new SAT.Vector(mouseX,mouseY), object.SAT)) {
+          object.highlight = true;
+        } else {
+          object.highlight = false;
+        }
+        break;
+      case Rect:
+        if(SAT.pointInPolygon(new SAT.Vector(mouseX,mouseY), object.SAT)) {
+          object.highlight = true;
+        } else {
+          object.highlight = false;
+        }
+        break;
+      case Triangle:
+        if(SAT.pointInPolygon(new SAT.Vector(mouseX,mouseY), object.SAT)) {
+          object.highlight = true;
+        } else {
+          object.highlight = false;
+        }
+        break;
+    }
   }
 }
 
@@ -122,6 +151,25 @@ function mouseClicked() {
       // Reset
       state.clicks = [];
       state.drawingMode = "none";
+    }
+  }
+  
+  if(state.opMode == "scale") {
+    if(state.clicks.length < 1) {
+      state.clicks.push({
+        x: mouseX,
+        y: mouseY
+      });
+    } else {
+      state.clicks.push({
+        x: mouseX,
+        y: mouseY
+      });
+      
+      opScale(state.clicks.pop());
+      // Reset
+      state.clicks = [];
+      state.opMode = "none";
     }
   }
 

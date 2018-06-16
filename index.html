@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <script src="src/p5.min.js"></script>
+    <script src="src/SAT.min.js"></script>
     <script src="src/modes.js"></script>
     <script src="src/objects.js"></script>
     <script src="src/create.js"></script>
@@ -27,7 +28,7 @@
         <p>Operações</p>
         <button id="clear" onclick="clearCanvas()">Clear</button>
         <button id="rotation">Rotação</button>
-        <button id="scale">M. Escala</button>
+        <button id="scale" onclick="opScaleMode()">M. Escala</button>
         <button id="translate">Translação</button>
         <button id="zoom">Zoom Extend</button>
     </div>
