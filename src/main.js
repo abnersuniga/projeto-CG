@@ -15,11 +15,12 @@ function centerCanvas() {
 }
 
 function windowResized() {
+  createCanvas(windowWidth*0.8, windowHeight*0.6);
   centerCanvas();
 }
 
 function setup() {
-  cnv = createCanvas(640, 480);
+  cnv = createCanvas(windowWidth*0.8, windowHeight*0.6);
   centerCanvas();
 }
 
