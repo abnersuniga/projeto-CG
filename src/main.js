@@ -4,17 +4,32 @@ const state = {
   clicks: [],
   objects: []
 }
+let cnv;
+
+function centerCanvas() {
+  let x = (windowWidth - width) / 2;
+
+  let mainHeight = document.getElementById('main').offsetHeight;
+  let y = mainHeight + 10;
+  cnv.position(x, y);
+}
+
+function windowResized() {
+  centerCanvas();
+}
 
 function setup() {
-  createCanvas(640, 480);
+  cnv = createCanvas(640, 480);
+  centerCanvas();
 }
 
 function draw() {
 
   // Border Canvas
   strokeWeight(3);
+  stroke(0);
   fill(255);
-  rect(0, 0, 639, 479);
+  rect(0, 0, width-1, height-1);
 
   for(object of state.objects) {
     object.show();
@@ -50,29 +65,38 @@ function draw() {
   }
 
   // Highlights and Select
-  for(object of state.objects) {
-    switch(object.constructor) {
-      case Circle:
-        if(SAT.pointInCircle(new SAT.Vector(mouseX,mouseY), object.SAT)) {
-          object.highlight = true;
-        } else {
-          object.highlight = false;
-        }
-        break;
-      case Rect:
-        if(SAT.pointInPolygon(new SAT.Vector(mouseX,mouseY), object.SAT)) {
-          object.highlight = true;
-        } else {
-          object.highlight = false;
-        }
-        break;
-      case Triangle:
-        if(SAT.pointInPolygon(new SAT.Vector(mouseX,mouseY), object.SAT)) {
-          object.highlight = true;
-        } else {
-          object.highlight = false;
-        }
-        break;
+  if(state.opMode != "none") {
+    for(object of state.objects) {
+      switch(object.constructor) {
+        case Line:
+          if(SAT.pointInPolygon(new SAT.Vector(mouseX,mouseY), object.SAT)) {
+            object.highlight = true;
+          } else {
+            object.highlight = false;
+          }
+          break;
+        case Circle:
+          if(SAT.pointInCircle(new SAT.Vector(mouseX,mouseY), object.SAT)) {
+            object.highlight = true;
+          } else {
+            object.highlight = false;
+          }
+          break;
+        case Rect:
+          if(SAT.pointInPolygon(new SAT.Vector(mouseX,mouseY), object.SAT)) {
+            object.highlight = true;
+          } else {
+            object.highlight = false;
+          }
+          break;
+        case Triangle:
+          if(SAT.pointInPolygon(new SAT.Vector(mouseX,mouseY), object.SAT)) {
+            object.highlight = true;
+          } else {
+            object.highlight = false;
+          }
+          break;
+      }
     }
   }
 }
@@ -173,4 +197,4 @@ function mouseClicked() {
     }
   }
 
-}
+} 

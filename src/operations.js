@@ -5,22 +5,29 @@ function clearCanvas() {
 function opScale(clickPoint) {
   for(object of state.objects) {
     switch(object.constructor) {
+      case Line:
+        if(SAT.pointInPolygon(new SAT.Vector(mouseX,mouseY), object.SAT)) {
+          object.select = true;
+          object.highlight = false;
+        }
+        break;
       case Circle:
-        console.log(SAT.pointInCircle(
-          new SAT.Vector(clickPoint.x,clickPoint.y), object.SAT)
-        );
+        if(SAT.pointInCircle(new SAT.Vector(mouseX,mouseY), object.SAT)) {
+          object.select = true;
+          object.highlight = false;
+        } 
         break;
       case Rect:
-        console.log(SAT.pointInPolygon(
-          new SAT.Vector(clickPoint.x,clickPoint.y), object.SAT)
-        );
+        if(SAT.pointInPolygon(new SAT.Vector(mouseX,mouseY), object.SAT)) {
+          object.select = true;
+          object.highlight = false;
+        }
         break;
       case Triangle:
-        console.log(object);
-        console.log(object.SAT1);
-        console.log(
-          SAT.pointInPolygon(new SAT.Vector(clickPoint.x,clickPoint.y), object.SAT1)
-        );
+        if(SAT.pointInPolygon(new SAT.Vector(mouseX,mouseY), object.SAT)) {
+          object.select = true;
+          object.highlight = false;
+        }
         break;
     }
   }

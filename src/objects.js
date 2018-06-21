@@ -2,10 +2,41 @@ class Line {
   constructor(point1, point2) {
     this.point1 = point1;
     this.point2 = point2;
+    this.point3 = {
+      x: point1.x,
+      y: point1.y + 10
+    }
+    this.point4 = {
+      x: point2.x,
+      y: point2.y + 10
+    }
+    this.highlight = false;
+    this.select = false;
+  
+    const V = SAT.Vector;
+    const P = SAT.Polygon;
+    this.SAT =  new P(
+      new V(), 
+      [
+        new V(this.point4.x, this.point4.y),
+        new V(this.point3.x, this.point3.y),
+        new V(this.point2.x, this.point2.y), 
+        new V(this.point1.x, this.point1.y)
+      ]
+    );
   }
   
   show() {
-	  line(this.point1.x, this.point1.y, this.point2.x, this.point2.y);
+    if(this.highlight) {
+      stroke('rgba(255, 153, 255, 0.40)');
+      line(this.point1.x, this.point1.y, this.point2.x, this.point2.y);
+    } else if(this.select) {
+      stroke('rgba(0, 140, 186, 0.40)');
+      line(this.point1.x, this.point1.y, this.point2.x, this.point2.y);
+    } else {
+      stroke(0);
+      line(this.point1.x, this.point1.y, this.point2.x, this.point2.y);
+    }
   }
 }
   
@@ -14,6 +45,7 @@ class Circle {
     this.point1 = point1;
     this.point2 = point2;
     this.highlight = false;
+    this.select = false;
     this.distance = dist(this.point1.x, this.point1.y, this.point2.x, this.point2.y);
 
     const V = SAT.Vector;
@@ -25,8 +57,12 @@ class Circle {
   }
   
   show() {
+    stroke(0);
     if(this.highlight) {
       fill('rgba(255, 153, 255, 0.40)');
+      ellipse(this.point2.x, this.point2.y, this.distance*2, this.distance*2);
+    } else if(this.select) {
+      fill('rgba(0, 140, 186, 0.40)');
       ellipse(this.point2.x, this.point2.y, this.distance*2, this.distance*2);
     } else {
       fill(255);
@@ -39,23 +75,39 @@ class Rect {
   constructor(point1, point2) {
     this.point1 = point1;
     this.point2 = point2;
+    this.point3 = {
+      x: point1.x,
+      y: point2.y
+    }
+    this.point4 = {
+      x: point2.x,
+      y: point1.y
+    }
     this.highlight = false;
-    
-    const V = SAT.Vector;
-    const P = SAT.Polygon;
-    const B = SAT.Box;
+    this.select = false;
     this.width = point2.x - point1.x;
     this.height = point2.y - point1.y;
-    this.SAT = new B(
-      new V(point2.x, point2.y), 
-      point1.x - point2.x, 
-      point1.y - point2.y
-    ).toPolygon();
+  
+    const V = SAT.Vector;
+    const P = SAT.Polygon;
+    this.SAT =  new P(
+      new V(), 
+      [
+        new V(this.point4.x, this.point4.y),
+        new V(this.point3.x, this.point3.y),
+        new V(this.point2.x, this.point2.y), 
+        new V(this.point1.x, this.point1.y)
+      ]
+    );
   }
   
   show() {
+    stroke(0);
     if(this.highlight) {
       fill('rgba(255, 153, 255, 0.40)');
+      rect(this.point1.x, this.point1.y, this.width, this.height);
+    } else if(this.select) {
+      fill('rgba(0, 140, 186, 0.40)');
       rect(this.point1.x, this.point1.y, this.width, this.height);
     } else {
       fill(255);
@@ -70,11 +122,12 @@ class Triangle {
 		this.point2 = point2;
     this.point3 = point3;
     this.highlight = false;
+    this.select = false;
 
     const V = SAT.Vector;
     const P = SAT.Polygon;
     this.SAT =  new P(
-      new V(this.point3.x, this.point3.y), 
+      new V(), 
       [
         new V(this.point3.x, this.point3.y),
         new V(this.point2.x, this.point2.y), 
@@ -84,8 +137,16 @@ class Triangle {
   }
   
   show() {
+    stroke(0);
     if(this.highlight) {
       fill('rgba(255, 153, 255, 0.40)');
+      triangle(
+        this.point1.x, this.point1.y,
+        this.point2.x, this.point2.y,
+        this.point3.x, this.point3.y
+      );
+    } else if(this.select) {
+      fill('rgba(0, 140, 186, 0.40)');
       triangle(
         this.point1.x, this.point1.y,
         this.point2.x, this.point2.y,

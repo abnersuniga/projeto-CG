@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <script src="src/p5.min.js"></script>
+    <script src="src/p5.dom.min.js"></script>
     <script src="src/SAT.min.js"></script>
     <script src="src/modes.js"></script>
     <script src="src/objects.js"></script>
@@ -16,21 +17,23 @@
     <script src="src/main.js"></script>
 </head>
 <body>
-    <h1>Trabalho Computação Gráfica</h1>
-    <div class="drawing">
+    <div id="main">
+        <h1>Trabalho Computação Gráfica</h1>
         <p>Desenhos</p>
-        <button id="line" onclick="drawLineMode()">Reta</button>
-        <button id="triangle" onclick="drawTriangleMode()">Triângulo</button>
-        <button id="rectangle" onclick="drawRectMode()">Retângulo</button>
-        <button id="circle" onclick="drawCircleMode()">Círculo</button>
-    </div>
-    <div class="operations">
+        <div class="drawing">
+            <button id="line" onclick="drawLineMode()">Reta</button>
+            <button id="triangle" onclick="drawTriangleMode()">Triângulo</button>
+            <button id="rectangle" onclick="drawRectMode()">Retângulo</button>
+            <button id="circle" onclick="drawCircleMode()">Círculo</button>
+        </div>
         <p>Operações</p>
-        <button id="clear" onclick="clearCanvas()">Clear</button>
-        <button id="rotation">Rotação</button>
-        <button id="scale" onclick="opScaleMode()">M. Escala</button>
-        <button id="translate">Translação</button>
-        <button id="zoom">Zoom Extend</button>
+        <div class="operations">
+            <button id="clear" onclick="clearCanvas()">Clear</button>
+            <button id="rotation">Rotação</button>
+            <button id="scale" onclick="opScaleMode()">M. Escala</button>
+            <button id="translate">Translação</button>
+            <button id="zoom">Zoom Extend</button>
+        </div>
     </div>
 </body>
 </html>

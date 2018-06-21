@@ -16,13 +16,28 @@ button {
     font-size: 16px;
     font-family: 'PT Sans', sans-serif;
     cursor: pointer;
-    width: 150px;
+    width: 100%;
+}
+h1 {
+    text-align: center;
+}
+#main {
+    margin: auto;
+    width: 80%;
 }
 .operations {
     margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-column-gap: 0.25em;
 }
 .operations button {
     background-color: #008CBA;
+}
+.drawing {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-column-gap: 0.25em;
 }
 .drawing button {
     background-color: #555555;
