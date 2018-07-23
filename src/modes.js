@@ -15,5 +15,9 @@ function drawTriangleMode() {
 }
 
 function opScaleMode() {
-  state.opMode = "scale";
+  state.operationMode = "scale";
+}
+
+function opTranslateMode() {
+  state.operationMode = "translate";
 }

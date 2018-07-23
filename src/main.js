@@ -1,8 +1,10 @@
 const state = {
   drawingMode: "none",
-  opMode: "none",
+  operationMode: "none",
   clicks: [],
-  objects: []
+  objects: [],
+  Sx:1,
+  Sy:1
 }
 let cnv;
 
@@ -66,7 +68,7 @@ function draw() {
   }
 
   // Highlights and Select
-  if(state.opMode != "none") {
+  if(state.operationMode == "none" || state.operationMode == "translate") {
     for(object of state.objects) {
       switch(object.constructor) {
         case Line:
@@ -103,6 +105,7 @@ function draw() {
 }
 
 function mouseClicked() {
+
   if(state.drawingMode == "line") {
     if(state.clicks.length < 2) {
       state.clicks.push({
@@ -178,24 +181,81 @@ function mouseClicked() {
       state.drawingMode = "none";
     }
   }
-  
-  if(state.opMode == "scale") {
-    if(state.clicks.length < 1) {
+
+  if(state.operationMode == "translate") {
+    if(state.clicks.length < 2) {
       state.clicks.push({
         x: mouseX,
         y: mouseY
       });
+      selecting(mouseX,mouseY);
     } else {
       state.clicks.push({
         x: mouseX,
         y: mouseY
       });
       
-      opScale(state.clicks.pop());
+      translateOp();
       // Reset
       state.clicks = [];
-      state.opMode = "none";
+      state.operationMode = "none";
     }
   }
-
 } 
+/*
+function keyPressed() {
+
+  // // Objects select
+  // let selected = state.objects.filter((object) => (object.select))
+
+  // switch(keyCode) {
+  //   case UP_ARROW:
+  //     switch(state.operationMode) {
+  //       case "translate":
+  //         for(object of selected) {
+  //           object.translate(0,-1);
+  //         }
+  //         break;
+  //     }
+  //     break;
+  //   case RIGHT_ARROW:
+  //     switch(state.operationMode) {
+  //       case "translate":
+  //         for(object of selected) {
+  //           object.translate(1,0);
+  //         }
+  //         break;
+  //     }
+  //     break;
+  //   case LEFT_ARROW:
+  //     switch(state.operationMode) {
+  //       case "translate":
+  //         for(object of selected) {
+  //           object.translate(-1,0);
+  //         }
+  //         break;
+  //     }
+  //     break;
+  //     case DOWN_ARROW:
+  //     switch(state.operationMode) {
+  //       case "translate":
+  //         for(object of selected) {
+  //           object.translate(0,1);
+  //         }
+  //         break;
+  //     }
+  //     break;
+  //   case ENTER:
+  //     switch(state.operationMode) {
+  //       case "translate":
+  //         for(object of selected) {
+  //           object.translate(0,-1);
+  //         }
+
+  //         //Reset
+  //         state.operationMode = "none";
+  //         break;
+  //     }
+  //     break;
+  }
+}*/
