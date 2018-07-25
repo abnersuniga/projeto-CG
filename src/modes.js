@@ -18,6 +18,10 @@ function opScaleMode() {
   state.operationMode = "scale";
 }
 
+function opRotateMode() {
+  state.operationMode = "rotate";
+}
+
 function opTranslateMode() {
   state.operationMode = "translate";
 }

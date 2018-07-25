@@ -25,15 +25,48 @@
             <button id="triangle" onclick="drawTriangleMode()">Triângulo</button>
             <button id="rectangle" onclick="drawRectMode()">Retângulo</button>
             <button id="circle" onclick="drawCircleMode()">Círculo</button>
+            <button id="help" onclick="help()">Ajuda</button>
         </div>
         <p>Operações</p>
         <div class="operations">
             <button id="clear" onclick="clearCanvas()">Clear</button>
-            <button id="rotation">Rotação</button>
+            <button id="rotation" onclick="opRotateMode()">Rotação</button>
             <button id="scale" onclick="opScaleMode()">M. Escala</button>
             <button id="translate" onclick="opTranslateMode()">Translação</button>
-            <button id="zoom">Zoom Extend</button>
+            <button id="zoom" onclick="opZoomExtend()" >Zoom Extend</button>
         </div>
+        <div id="scaleModal" class="modal">
+            <form class="modal-content animate">          
+                <label for="sx">Fator de escala Sx</label>
+                <input id="sx" type="number" step="0.1" name="sx" required>
+
+                <label for="sy">Fator de escala Sy</label>
+                <input id="sy" type="number" step="0.1" name="sy" required>
+                  
+                <button type="button" onclick="scaleOp()">Mudar Escala</button>
+            </form>
+        </div>
+        <div id="rotateModal" class="modal">
+            <form class="modal-content animate">          
+                <label for="ang">Ângulo de Rotação (graus)</label>
+                <input id="ang" type="number" step="0.1" name="ang" required>
+                  
+                <button type="button" onclick="rotateOp()">Rotacionar</button>
+            </form>
+        </div>  
+        <div id="helpModal" class="modal">
+            <div class="modal-content">
+                <div class="content">
+                    <span class="close" onclick="helpClose()">&times;</span>
+                    <h3>Desenhando objetos</h3>
+                    <p>Para desenhar um objeto no canvas clique no botão da figura desejada e selecione os pontos no canvas</p>
+                    <h3>Transformações nos objetos</h3>
+                    <p>Para realizar uma transformação clique no botão da transformação desejada e selecione o objeto. Após isso, insira os valores para a transformação</p>
+                    <h3>Apagar objetos</h3>
+                    <p>Para apagar TODOS os objetos clique no clear. Se houver objetos selecionados somentes estes serão apagados</p>
+                </div>
+            </div>
+        </div>          
     </div>
 </body>
 </html>

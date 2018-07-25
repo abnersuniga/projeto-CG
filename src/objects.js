@@ -70,12 +70,32 @@ class Line {
     );
   }
 
-  scale(Sx, Sy) {
-    this.point1.x = Sx * this.point1.x;
-    this.point1.y = Sy * this.point1.y;
+  scale(sx, sy) {
+    this.point1.x = sx * this.point1.x;
+    this.point1.y = sy * this.point1.y;
+    this.point3 = {
+      x: this.point1.x,
+      y: this.point1.y + 10
+    }
+    this.point4 = {
+      x: this.point2.x,
+      y: this.point2.y + 10
+    }
 
-    this.point2.x = Sx * this.point2.x;
-    this.point2.y = Sx * this.point2.y;
+    this.width = this.point1.x - this.point2.x;
+    this.height = this.point1.y - this.point2.y;
+
+    const V = SAT.Vector;
+    const P = SAT.Polygon;
+    this.SAT =  new P(
+      new V(), 
+      [
+        new V(this.point4.x, this.point4.y),
+        new V(this.point3.x, this.point3.y),
+        new V(this.point2.x, this.point2.y), 
+        new V(this.point1.x, this.point1.y)
+      ]
+    );
   }
 }
   
@@ -110,7 +130,25 @@ class Circle {
   }
 
   translate(newPoint) {
+    const dif = {
+      x: newPoint.x - this.point2.x,
+      y: newPoint.y - this.point2.y
+    }
     this.point2 = newPoint;
+    this.point1.x += dif.x;
+    this.point1.y += dif.y;
+    const V = SAT.Vector;
+    const C = SAT.Circle;
+    this.SAT = new C(
+      new V(this.point2.x,this.point2.y), 
+      this.distance
+    );
+  }
+
+  scale(sx, sy) {
+    this.point1.x = sx * this.point1.x;
+    this.point1.y = sy * this.point1.y;
+    this.distance = dist(this.point1.x, this.point1.y, this.point2.x, this.point2.y);
     const V = SAT.Vector;
     const C = SAT.Circle;
     this.SAT = new C(
@@ -136,6 +174,7 @@ class Rect {
     this.select = false;
     this.width = point2.x - point1.x;
     this.height = point2.y - point1.y;
+    this.rotateAng = 0;
   
     const V = SAT.Vector;
     const P = SAT.Polygon;
@@ -154,12 +193,15 @@ class Rect {
     stroke(0);
     if(this.highlight) {
       fill('rgba(255, 153, 255, 0.40)');
+      rotate(this.rotateAng);
       rect(this.point1.x, this.point1.y, this.width, this.height);
     } else if(this.select) {
       fill('rgba(0, 140, 186, 0.40)');
+      rotate(this.rotateAng);
       rect(this.point1.x, this.point1.y, this.width, this.height);
     } else {
       fill(255);
+      rotate(this.rotateAng);
       rect(this.point1.x, this.point1.y, this.width, this.height);
     }
   }
@@ -191,23 +233,60 @@ class Rect {
     );
   }
 
-  scale(Sx, Sy) {
-    this.translate(-this.point2.x, -this.point2.y);
-    console.log(this);
-
-    this.point1.x = Sx * this.point1.x;
-    this.point1.y = Sy * this.point1.y;
+  rotate(ang) {
+    ang = ang * (Math.PI/180);
+    this.rotateAng += ang;  
     
-    this.point2.x = Sx * this.point2.x;
-    this.point2.y = Sy * this.point2.y;
+    this.point1.x = this.point1.x * Math.cos(ang) - this.point1.y * Math.sin(ang);
+    this.point1.y = this.point1.x * Math.sin(ang) + this.point1.y * Math.cos(ang);
 
-    this.point3.x = Sx * this.point3.x;
-    this.point3.y = Sy * this.point3.y;
+    this.point3.x = this.point3.x * Math.cos(ang) - this.point3.y * Math.sin(ang);
+    this.point3.y = this.point3.x * Math.sin(ang) + this.point3.y * Math.cos(ang);
 
-    this.point4.x = Sx * this.point4.x;
-    this.point4.y = Sy * this.point4.y;
+    this.point4.x = this.point4.x * Math.cos(ang) - this.point4.y * Math.sin(ang);
+    this.point4.y = this.point4.x * Math.sin(ang) + this.point4.y * Math.cos(ang);
 
-    this.translate(this.point2.x, this.point2.y);
+    const V = SAT.Vector;
+    const P = SAT.Polygon;
+    this.SAT =  new P(
+      new V(), 
+      [
+        new V(this.point4.x, this.point4.y),
+        new V(this.point3.x, this.point3.y),
+        new V(this.point2.x, this.point2.y), 
+        new V(this.point1.x, this.point1.y)
+      ]
+    );
+  }
+
+  scale(sx, sy) {  
+
+    this.point1.x = sx * this.point1.x;
+    this.point1.y = sy * this.point1.y;
+    this.point3 = {
+      x: this.point1.x,
+      y: this.point2.y
+    }
+    this.point4 = {
+      x: this.point2.x,
+      y: this.point1.y
+    }
+
+    this.width = this.point2.x - this.point1.x;
+    this.height = this.point2.y - this.point1.y;
+  
+    const V = SAT.Vector;
+    const P = SAT.Polygon;
+    this.SAT =  new P(
+      new V(), 
+      [
+        new V(this.point4.x, this.point4.y),
+        new V(this.point3.x, this.point3.y),
+        new V(this.point2.x, this.point2.y), 
+        new V(this.point1.x, this.point1.y)
+      ]
+    );
+
   }
 
 }
@@ -276,6 +355,24 @@ class Triangle {
       x: newPoint.x - d32.x,
       y: newPoint.y - d32.y
     }
+    const V = SAT.Vector;
+    const P = SAT.Polygon;
+    this.SAT =  new P(
+      new V(), 
+      [
+        new V(this.point3.x, this.point3.y),
+        new V(this.point2.x, this.point2.y), 
+        new V(this.point1.x, this.point1.y)
+      ]
+    );
+  }
+
+  scale(sx, sy) {
+    this.point1 .x = sx * this.point1.x;
+    this.point1.y = sy * this.point1.y;
+    this.point2.x = sx * this.point2.x;
+    this.point2.y = sy * this.point2.y;
+
     const V = SAT.Vector;
     const P = SAT.Polygon;
     this.SAT =  new P(
