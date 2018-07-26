@@ -25,3 +25,7 @@ function opRotateMode() {
 function opTranslateMode() {
   state.operationMode = "translate";
 }
+
+function opZoom() {
+  state.operationMode = "zoom";
+}

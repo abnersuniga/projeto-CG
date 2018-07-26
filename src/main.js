@@ -66,13 +66,20 @@ function draw() {
       }
     }
   }
-
   if(state.operationMode == "translate" && state.clicks.length > 1) {
     for(object of state.objects) {
       if(object.select == true) {
         object.translate({x:mouseX,y:mouseY});
       }
     }
+  }
+  if(state.operationMode == "zoom" && state.clicks.length > 1) {
+    let x = state.clicks[state.clicks.length-1].x;
+    let y = state.clicks[state.clicks.length-1].y;
+    let width = mouseX - x;
+    let height = mouseY - y;
+    noFill();
+    rect(x, y, width, height);
   }
 
   // Highlights and Select
@@ -137,6 +144,18 @@ function draw() {
     } 
     if(state.clicks.length > 2) {
       help = '\nSelecione o 3º ponto';
+    }
+  }
+  if(state.operationMode == "zoom") {
+    help = '\nSelecione o 1º ponto';
+    if(state.clicks.length > 1){
+      help = '\nSelecione o 2º ponto';
+    }
+  }
+  if(state.operationMode == "translate" || state.operationMode == "scale") {
+    help = '\nSelecione um objeto';
+    if(state.clicks.length > 1 && state.operationMode == "translate"){
+      help = '\nSelecione a posição do objeto';
     }
   }
 
@@ -280,6 +299,25 @@ function mouseClicked() {
         document.getElementById('rotateModal').style.display='block';
       }
 
+      state.clicks = [];
+      state.operationMode = "none";
+    }
+  }
+
+  if(state.operationMode == "zoom") {
+    if(state.clicks.length < 2) {
+      state.clicks.push({
+        x: mouseX,
+        y: mouseY
+      });
+    } else {
+      state.clicks.push({
+        x: mouseX,
+        y: mouseY
+      });
+      
+      zoom();
+      // Reset
       state.clicks = [];
       state.operationMode = "none";
     }

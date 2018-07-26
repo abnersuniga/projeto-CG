@@ -87,6 +87,38 @@ function translateOp() {
   }
 }
 
+function zoom() {
+  const point1 = state.clicks.pop();
+  const point2 = state.clicks.pop();
+  
+  let xmin, xmax, ymin, ymax;
+
+  if(point1.x < point2.x) {
+    xmin = point1.x;
+    xmax = point2.x;
+  } else {
+    xmin = point2.x;
+    xmax = point1.x;
+  }
+  if(point1.y < point2.y) {
+    ymin = point1.y;
+    ymax = point2.y;
+  } else {
+    ymin = point2.y;
+    ymax = point1.x;
+  }
+
+  for(object of state.objects) {
+    let oldPoint = object.point2;
+    if(object.constructor == Triangle) {
+      oldPoint = object.point3;
+    }
+    object.translate({x:0,y:0});
+    object.scale(cnv.width/(xmax-xmin), cnv.height/(ymax-ymin));
+    object.translate({x:(oldPoint.x-xmin)/(xmax-xmin)*cnv.width, y:(oldPoint.y-ymin)/(ymax-ymin)*cnv.height});
+  }
+}
+
 function scaleOp() {
   for(object of state.objects) {
     if(object.select == true) {
@@ -132,10 +164,7 @@ function rotateOp() {
 }
 
 function opZoomExtend() {
-  let xmin = undefined,
-        xmax = undefined,
-        ymin = undefined,
-        ymax = undefined;
+  let xmin, xmax, ymin, ymax;
 
   // Detecta a maior ou menor coordenada x ou y do objeto
   function aux(object, coord, op) {
