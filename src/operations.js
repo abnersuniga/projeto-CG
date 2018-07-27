@@ -114,8 +114,20 @@ function zoom() {
       oldPoint = object.point3;
     }
     object.translate({x:0,y:0});
-    object.scale(cnv.width/(xmax-xmin), cnv.height/(ymax-ymin));
-    object.translate({x:(oldPoint.x-xmin)/(xmax-xmin)*cnv.width, y:(oldPoint.y-ymin)/(ymax-ymin)*cnv.height});
+
+    const RWindow = (xmax-xmin)/(ymax-ymin);
+    const RView = cnv.width/cnv.height;
+    let newHeight, width;
+    if(RWindow > RView) {
+      newHeight = cnv.height/RView;
+      newWidth = cnv.width;
+    } else {
+      newWidth = cnv.height*RWindow;
+      newHeight = cnv.height;
+    }
+
+    object.scale(newWidth/(xmax-xmin), newHeight/(ymax-ymin));
+    object.translate({x:((oldPoint.x-xmin)/(xmax-xmin)*newWidth) + (cnv.width-newWidth)/2, y:(oldPoint.y-ymin)/(ymax-ymin)*newHeight + (cnv.height-newHeight)/2});
   }
 }
 
@@ -206,8 +218,20 @@ function opZoomExtend() {
       oldPoint = object.point3;
     }
     object.translate({x:0,y:0});
-    object.scale(cnv.width/(xmax-xmin), cnv.height/(ymax-ymin));
-    object.translate({x:(oldPoint.x-xmin)/(xmax-xmin)*cnv.width, y:(oldPoint.y-ymin)/(ymax-ymin)*cnv.height});
+
+    const RWindow = (xmax-xmin)/(ymax-ymin);
+    const RView = cnv.width/cnv.height;
+    let newHeight, width;
+    if(RWindow > RView) {
+      newHeight = cnv.height/RView;
+      newWidth = cnv.width;
+    } else {
+      newWidth = cnv.height*RWindow;
+      newHeight = cnv.height;
+    }
+
+    object.scale(newWidth/(xmax-xmin), newHeight/(ymax-ymin));
+    object.translate({x:((oldPoint.x-xmin)/(xmax-xmin)*newWidth) + (cnv.width-newWidth)/2, y:(oldPoint.y-ymin)/(ymax-ymin)*newHeight + (cnv.height-newHeight)/2});
   }
 
   console.log("Zoom Extend");

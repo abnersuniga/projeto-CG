@@ -63,7 +63,9 @@ input {
     border: 1px solid #ccc;
     box-sizing: border-box;
 }
-
+.icon {
+    font-weight: bold;
+}
 
 /* The Modal (background) */
 .modal {

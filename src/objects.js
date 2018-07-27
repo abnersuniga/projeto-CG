@@ -70,6 +70,41 @@ class Line {
     );
   }
 
+  rotate(ang) {
+    ang = ang * (Math.PI/180);
+    
+    this.point1.x = this.point1.x * Math.cos(ang) - this.point1.y * Math.sin(ang);
+    this.point1.y = this.point1.x * Math.sin(ang) + this.point1.y * Math.cos(ang);
+
+    this.point2.x = this.point2.x * Math.cos(ang) - this.point2.y * Math.sin(ang);
+    this.point2.y = this.point2.x * Math.sin(ang) + this.point2.y * Math.cos(ang);
+  
+    this.point3 = {
+      x: this.point1.x,
+      y: this.point1.y + 10
+    }
+
+    this.point4 = {
+      x: this.point2.x,
+      y: this.point2.y + 10
+    }
+
+    //this.width = this.point1.x - this.point2.x;
+    //this.height = this.point1.y - this.point2.y;
+
+    const V = SAT.Vector;
+    const P = SAT.Polygon;
+    this.SAT =  new P(
+      new V(), 
+      [
+        new V(this.point4.x, this.point4.y),
+        new V(this.point3.x, this.point3.y),
+        new V(this.point2.x, this.point2.y), 
+        new V(this.point1.x, this.point1.y)
+      ]
+    );
+  }
+
   scale(sx, sy) {
     this.point1.x = sx * this.point1.x;
     this.point1.y = sy * this.point1.y;
@@ -193,15 +228,12 @@ class Rect {
     stroke(0);
     if(this.highlight) {
       fill('rgba(255, 153, 255, 0.40)');
-      rotate(this.rotateAng);
       rect(this.point1.x, this.point1.y, this.width, this.height);
     } else if(this.select) {
       fill('rgba(0, 140, 186, 0.40)');
-      rotate(this.rotateAng);
       rect(this.point1.x, this.point1.y, this.width, this.height);
     } else {
       fill(255);
-      rotate(this.rotateAng);
       rect(this.point1.x, this.point1.y, this.width, this.height);
     }
   }
@@ -235,16 +267,21 @@ class Rect {
 
   rotate(ang) {
     ang = ang * (Math.PI/180);
-    this.rotateAng += ang;  
     
     this.point1.x = this.point1.x * Math.cos(ang) - this.point1.y * Math.sin(ang);
     this.point1.y = this.point1.x * Math.sin(ang) + this.point1.y * Math.cos(ang);
+
+    this.point2.x = this.point2.x * Math.cos(ang) - this.point2.y * Math.sin(ang);
+    this.point2.y = this.point2.x * Math.sin(ang) + this.point2.y * Math.cos(ang);
 
     this.point3.x = this.point3.x * Math.cos(ang) - this.point3.y * Math.sin(ang);
     this.point3.y = this.point3.x * Math.sin(ang) + this.point3.y * Math.cos(ang);
 
     this.point4.x = this.point4.x * Math.cos(ang) - this.point4.y * Math.sin(ang);
     this.point4.y = this.point4.x * Math.sin(ang) + this.point4.y * Math.cos(ang);
+
+    this.width = this.point2.x - this.point1.x;
+    this.height = this.point2.y - this.point1.y;
 
     const V = SAT.Vector;
     const P = SAT.Polygon;
